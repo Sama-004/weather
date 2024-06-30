@@ -23,7 +23,7 @@ function Chatbot() {
   return (
     <>
       <div className="chatbot-button">
-        <button onClick={render_chatbot}></button>
+        <button onClick={render_chatbot} className="bg-white"></button>
       </div>
       {chatbotDisplay && <Chatbot_window />}
     </>
