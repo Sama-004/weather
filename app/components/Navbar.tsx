@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 function Navbar() {
   return (
@@ -22,7 +23,7 @@ function Navbar() {
             <a href="#">Crop Disease Predict</a>
           </li>
           <li>
-            <a href="#">Weather API</a>
+            <Link href={`/weather`}>Weather API</Link>
           </li>
         </ul>
       </nav>
