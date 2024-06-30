@@ -4,7 +4,6 @@ function Navbar() {
   return (
     <div className="navigation-bar-main">
       <Image
-        // src={`http://localhost:3000/agribay-transparent.png`}
         src={`/agribay-transparent.png`}
         alt="none"
         width={240}
