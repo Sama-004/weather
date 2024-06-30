@@ -1,7 +1,7 @@
 import { sql } from "@vercel/postgres";
 import nextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import client from "@/db";
+import client from "@/db";
 
 const handler = nextAuth({
   session: {
@@ -23,30 +23,28 @@ const handler = nextAuth({
         },
       },
       async authorize(credentials: any, req) {
-        const response = await sql`
-        SELECT * FROM users WHERE email=${credentials?.email}`;
-        const user = response.rows[0];
-        if (credentials?.password === user.password) {
-          const correctPass = user.password;
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+        // const response = await sql`
+        // SELECT * FROM users WHERE email=${credentials?.email}`;
+        // const user = response.rows[0];
+        const user = await client.user.findUnique({
+          where: { email: credentials?.email },
+        });
+        if (user && credentials?.password === user.password) {
           return {
-            id: user.id,
+            id: user.id.toString(),
             email: user.email,
           };
+          // if (credentials?.password === user.password) {
+          //   const correctPass = user.password;
+          //   return {
+          //     id: user.id,
+          //     email: user.email,
+          //   };
         }
         return null;
-        // if (!credentials || !credentials.email || !credentials.password) {
-        //   throw new Error("Email and password are required");
-        // }
-
-        // const user = await client.user.findUnique({
-        //   where: { email: credentials.email },
-        // });
-
-        // if (!user || user.password !== credentials.password) {
-        //   throw new Error("Invalid email or password");
-        // }
-
-        // return { id: user.id, user: user.username, email: user.email };
       },
     }),
   ],
