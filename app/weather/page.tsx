@@ -16,9 +16,10 @@ export default function WeatherPage() {
     const fetchSession = async () => {
       const session = await getSession();
       if (!session) {
-        // window.location.href = "/api/auth/signin";
         setLoading(false);
-      } else {
+        router.push("/login");
+      }
+      if (session) {
         setLoading(false);
       }
     };
@@ -83,8 +84,6 @@ export default function WeatherPage() {
       ) : (
         <p>Fetching weather data...</p>
       )}
-      <button onClick={() => router.push("/api/auth/signin")}>Sign In</button>
-      <button onClick={() => router.push("/signup")}>Sign Up</button>
     </div>
   );
 }
