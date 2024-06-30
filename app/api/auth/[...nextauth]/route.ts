@@ -1,79 +1,55 @@
+import { sql } from "@vercel/postgres";
 import nextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getServerSession } from "next-auth";
-// import { PrismaClient } from "@prisma/client/extension";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-// import { PrismaClient } from "../../prisma/generated/client/edge";
-import client from "@/db";
-
-// const prisma = new PrismaClient();
+// import client from "@/db";
 
 const handler = nextAuth({
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     CredentialsProvider({
-      name: "Email",
+      name: "Credentials",
       credentials: {
-        username: { label: "email", type: "text", placeholder: "Email" },
+        username: {
+          label: "email",
+          type: "text",
+          placeholder: "Email@provider.com",
+        },
         password: {
           label: "password",
           type: "password",
           placeholder: "Password",
         },
       },
-      async authorize(credentials: any) {
-        if (!credentials || !credentials.email || !credentials.password) {
-          throw new Error("Email and password are required");
+      async authorize(credentials: any, req) {
+        const response = await sql`
+        SELECT * FROM users WHERE email=${credentials?.email}`;
+        const user = response.rows[0];
+        if (credentials?.password === user.password) {
+          const correctPass = user.password;
+          return {
+            id: user.id,
+            email: user.email,
+          };
         }
+        return null;
+        // if (!credentials || !credentials.email || !credentials.password) {
+        //   throw new Error("Email and password are required");
+        // }
 
-        const user = await client.user.findUnique({
-          where: { email: credentials.email },
-        });
+        // const user = await client.user.findUnique({
+        //   where: { email: credentials.email },
+        // });
 
-        // Directly compare the plaintext passwords
-        if (!user || user.password !== credentials.password) {
-          throw new Error("Invalid email or password");
-        }
+        // if (!user || user.password !== credentials.password) {
+        //   throw new Error("Invalid email or password");
+        // }
 
-        // Return user object to signify successful authentication
-        return { id: user.id, name: user.name, email: user.email };
+        // return { id: user.id, user: user.username, email: user.email };
       },
     }),
   ],
-  //         const session = await getServerSession();
-  //         if (!credentials?.email || !credentials.password) {
-  //           return null;
-  //         }
-  //         const user = await prisma.user.findUnique({
-  //           where: { email: credentials.email },
-  //         });
-
-  //         if (
-  //           !user ||
-  //           !(await bcrypt.compare(credentials.password, user.password))
-  //         ) {
-  //           return null;
-  //         }
-
-  //         return { id: user.id, name: user.name, email: user.email };
-  //       },
-  //     }),
-  //   ],
-  adapter: PrismaAdapter(client),
-  secret: process.env.NEXTAUTH_SECRET,
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id;
-      }
-      return session;
-    },
-  },
 });
 
 export { handler as GET, handler as POST };

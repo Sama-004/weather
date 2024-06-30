@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -9,12 +10,14 @@ export default function WeatherPage() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSession = async () => {
       const session = await getSession();
       if (!session) {
-        window.location.href = "/api/auth/signin";
+        // window.location.href = "/api/auth/signin";
+        setLoading(false);
       } else {
         setLoading(false);
       }
@@ -80,6 +83,8 @@ export default function WeatherPage() {
       ) : (
         <p>Fetching weather data...</p>
       )}
+      <button onClick={() => router.push("/api/auth/signin")}>Sign In</button>
+      <button onClick={() => router.push("/signup")}>Sign Up</button>
     </div>
   );
 }
