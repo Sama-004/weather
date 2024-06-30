@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
 import "./globals.css";
+import Logout from "@/logout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +20,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {!!session && <div>logged in</div>}
-        {!session && <div>logged out</div>}
+        <div className="bg-red-600">{!!session && <Logout />}</div>
+        {!session && <div className="bg-black text-white">logged out</div>}
         {children}
       </body>
     </html>

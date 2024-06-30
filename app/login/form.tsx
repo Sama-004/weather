@@ -1,9 +1,11 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -15,6 +17,10 @@ export default function LoginForm() {
       redirect: false,
     });
     console.log({ response });
+    if (!response?.error) {
+      router.push("/weather");
+      router.refresh();
+    }
   };
 
   return (

@@ -29,7 +29,9 @@ function Navbar() {
       </nav>
 
       <div className="login-button">
-        <button>Login</button>
+        <Link href="/login">
+          <button>Login</button>
+        </Link>
       </div>
     </div>
   );
