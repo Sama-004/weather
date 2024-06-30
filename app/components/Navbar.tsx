@@ -17,10 +17,7 @@ function Navbar() {
             <a href="/">Dashboard</a>
           </li>
           <li>
-            <a href={`/crop-yield`}>Crop Yield Predict</a>
-          </li>
-          <li>
-            <a href={`/disease-detector`}>Crop Disease Predict</a>
+            <a href={`/disease-detector`}>Crop Disease Detector</a>
           </li>
           <li>
             <Link href={`/weather`}>Weather API</Link>

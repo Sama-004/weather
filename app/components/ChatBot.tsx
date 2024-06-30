@@ -4,12 +4,15 @@ import { useState } from "react";
 
 function Chatbot_window() {
   return (
-    <div className="chatbot-window">
+    <div className="z-10">
+      <div className="chatbot-window">
       <iframe
         src="http://localhost:8501?embed=true"
         width="500px"
         height="500px"></iframe>
     </div>
+    </div>
+    
   );
 }
 
