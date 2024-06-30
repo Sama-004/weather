@@ -1,4 +1,5 @@
 import Chatbot from "./components/ChatBot";
+import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 
 export default function Page() {
@@ -6,6 +7,7 @@ export default function Page() {
     <>
       <Navbar />
       <Chatbot />
+      <Dashboard />
     </>
   );
 }

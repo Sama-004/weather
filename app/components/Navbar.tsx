@@ -14,13 +14,16 @@ function Navbar() {
       <nav>
         <ul>
           <li>
-            <a href="#">Dashboard</a>
+            {/* <a href="/">Dashboard</a> */}
+            <Link href={`/`}>Dashboard</Link>
           </li>
+          {/* <li> */}
+          {/* <a href="">Crop Yield Predict</a> */}
+          {/* <Link href={`/crop-yield`}>Weather API</Link> */}
+          {/* </li> */}
           <li>
-            <a href="#">Crop Yield Predict</a>
-          </li>
-          <li>
-            <a href="#">Crop Disease Predict</a>
+            {/* <a href="#">Crop Disease Predict</a> */}
+            <Link href={`/disease-detector`}>Crop Disease Predict</Link>
           </li>
           <li>
             <Link href={`/weather`}>Weather API</Link>

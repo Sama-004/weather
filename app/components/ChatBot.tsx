@@ -4,11 +4,13 @@ import { useState } from "react";
 
 function Chatbot_window() {
   return (
-    <div className="chatbot-window">
-      <iframe
-        src="http://localhost:8501?embed=true"
-        width="500px"
-        height="500px"></iframe>
+    <div className="z-10">
+      <div className="chatbot-window">
+        <iframe
+          src="http://localhost:8501?embed=true"
+          width="500px"
+          height="500px"></iframe>
+      </div>
     </div>
   );
 }
@@ -23,7 +25,7 @@ function Chatbot() {
   return (
     <>
       <div className="chatbot-button">
-        <button onClick={render_chatbot}></button>
+        <button onClick={render_chatbot} className="bg-white"></button>
       </div>
       {chatbotDisplay && <Chatbot_window />}
     </>
